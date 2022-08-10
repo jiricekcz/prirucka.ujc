@@ -13,8 +13,8 @@ const NONSENSICAL_WORDS = [
 const MULTIPLE_RESULT_WORDS = ["je", "on", "děl", "bez"];
 
 const WORDS = {
-    nouns: ["voda", "vody", "nádobí", "mládež", "armády", "lakomost", "demokracie", "pán", "muž", "předseda", "soudce", "hrad", "stroj", "žena", "růže", "píseň", "kost", "město", "moře", "kuře", "stavení", "hajný", "bytná", "vstupné", "hovězí", "kupé"],
-    adjectives: ["vysoký", "vysoký", "nejvyšší", "mladý", "jarní", "otcův", "matčin"],
+    nouns: ["voda", "vody", "nádobí", "mládež", "armády", "lakomost", "demokracie", "pán", "muž", "předseda", "soudce", "hrad", "stroj", "žena", "růže", "píseň", "kost", "město", "moře", "kuře", "stavení", "hajný", "bytná", "vstupné", "kupé"],
+    adjectives: ["vysoký", "vysoký", "nejvyšší", "jarní", "otcův", "matčin"],
     pronouns: ["já", "on", "ona", "my", "vy", "oni", "nikdo", "jejich"],
 };
 test("Site accessible", async () => {
@@ -38,4 +38,11 @@ test("Nouns work correctly", async () => {
         if (!response.isStandardResult()) console.log("Word: " + word);
         expect(response.isStandardResult()).toBe(true);
     }
-})
+});
+test("Adjectives work correctly", async () => {
+    for (const word of WORDS.adjectives) {
+        const response = await API.wordQuery(word);
+        if (!response.isStandardResult()) console.log("Word: " + word);
+        expect(response.isStandardResult()).toBe(true);
+    }
+});

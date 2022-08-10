@@ -21,6 +21,6 @@ namespace API {
 }
 export default API;
 
-API.wordQuery("pán").then(r => {
+API.wordQuery("vysoký").then(r => {
     console.log(r);
 })

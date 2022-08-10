@@ -65,6 +65,8 @@ export async function classifyWordQueryResponse(
                     };
                 });
                 else if (child.innerHTML.startsWith("význam: ")) traits.vyznam = removeHTMLTags(child.innerHTML).split("význam: ")[1];
+                else if (child.innerHTML.startsWith("2. stupeň: ")) traits.stupen2 = removeHTMLTags(child.innerHTML?.split("2. stupeň: ")[1]?.split("<")[0] ?? "");
+                else if (child.innerHTML.startsWith("3. stupeň: ")) traits.stupen3 = removeHTMLTags(child.innerHTML?.split("3. stupeň: ")[1]?.split("<")[0] ?? "");
                 else console.log("Unknown polozka: " + pureText + "; While searching for " + searchPhrase);
             } else if (IGNORE_TAGS.includes(child.tagName)) continue;
             // If child tag is on the ignore list, continue
@@ -267,6 +269,8 @@ type Traits = {
     frazeologie?: string[];
     poznamky?: string;
     vyznam?: string;
+    stupen2?: string;
+    stupen3?: string;
 };
 
 function removeTags(html: Element, tag: string): void {
