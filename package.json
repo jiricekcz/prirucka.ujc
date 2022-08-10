@@ -24,6 +24,7 @@
 	},
 	"homepage": "https://github.com/jiricekcz/prirucka.ujc#readme",
 	"devDependencies": {
+		"@types/jsdom": "^20.0.0",
 		"@types/node": "^17.0.10",
 		"@typescript-eslint/eslint-plugin": "^5.10.0",
 		"@typescript-eslint/parser": "^5.10.0",
