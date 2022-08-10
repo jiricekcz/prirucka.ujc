@@ -13,48 +13,48 @@ export async function classifyWordQueryResponse(
     } else if (content?.children[1]?.className.includes("hledani")) {
         if (content?.children[2]?.innerHTML.includes("nebyl nalezen.")) {
             // Word not found
-            const b = content.getElementsByTagName("b")[0]?.innerHTML;
-            if (b == null) throw new Error("Error in parsing response");
-            const word = termInsideQuotes(b);
-            if (word == null) throw new Error("Error in parsing response");
+            const b = content.getElementsByTagName("b")[0]?.innerHTML; // Get the "word not  found" text
+            if (b == null) throw new Error("Error in parsing response"); // If the text is not found, throw an error
+            const word = termInsideQuotes(b); // Get the word from the text
+            if (word == null) throw new Error("Error in parsing response"); // If the word is not found, throw an error
             return new WordNotFoundResponse(word);
         } else if (String(content?.children[2]?.className).length == 0) {
             // Multiple results type 1 (ex. bez)
-            const body = content?.children[2];
-            const spans = body?.getElementsByTagName("span");
-            if (spans == null) throw new Error("Error in parsing response");
-            const results: { id: string; explanation: string }[] = [];
-            for (let i = 0; i < spans?.length; i++) {
-                const span = spans[i];
-                if (!span) continue;
-                const a = span?.getElementsByTagName("a")[0];
-                const url = a?.getAttribute("href");
-                if (url == null) continue;
-                const id = new URL(url).searchParams.get("id");
-                const explanation = span.innerHTML.split("</a>")[1]?.split("<br>")[0]?.replace(", ", "");
-                if (explanation == null || id == null) throw new Error("Error in parsing response");
+            const body = content?.children[2]; // selects the 3rd child - div without id
+            const spans = body?.getElementsByTagName("span"); // different options are in spans, so we select all of them
+            if (spans == null) throw new Error("Error in parsing response"); // if there are no spans, there are no results
+            const results: { id: string; explanation: string }[] = []; 
+            for (let i = 0; i < spans?.length; i++) { 
+                const span = spans[i]; 
+                if (!span) continue; // if there is no span, continue
+                const a = span?.getElementsByTagName("a")[0]; // select the first a tag, because there is only one and it contains the url with the id
+                const url = a?.getAttribute("href"); // get the url from the a tag
+                if (url == null) continue; // if there is no url, continue
+                const id = new URL(url).searchParams.get("id"); // get the id url param from the url
+                const explanation = span.innerHTML.split("</a>")[1]?.split("<br>")[0]?.replace(", ", ""); // get the text after the a tag and before the br tag
+                if (explanation == null || id == null) throw new Error("Error in parsing response"); // if there is no explanation or id, continue
                 results.push({ id, explanation });
             }
             return new MultipleResultsResponse(searchPhrase, results);
         } else if (content?.children[2]?.className.includes("screen")) {
             // Multiple results type 2 (ex. je)
-            const trs = content.querySelector("#dalsiz")?.children[0]?.children[0]?.children;
-            if (trs == null) throw new Error("Error in parsing response");
+            const trs = content.querySelector("#dalsiz")?.children[0]?.children[0]?.children; // selects the trs from the table
+            if (trs == null) throw new Error("Error in parsing response"); // if there are no trs, there are no results
             const results: { id: string; explanation: string }[] = [];
             for (let i = 0; i < trs.length; i++) {
-                const tr = trs[i];
-                if (!tr) continue;
+                const tr = trs[i]; 
+                if (!tr) continue; // if there is no tr, continue
                 const url = tr
                     ?.getElementsByTagName("td")[0]
                     ?.children[0]?.getElementsByTagName("a")[0]
-                    ?.getAttribute("href");
-                if (url == null) continue;
-                const id = new URL(url).searchParams.get("id");
-                if (id == null) throw new Error("Error in parsing response");
-                const explanationElement = tr?.getElementsByTagName("td")[1];
-                const descriptionInnerHTML = explanationElement?.innerHTML;
-                if (descriptionInnerHTML == null) continue;
-                const description = removeHTMLTags(descriptionInnerHTML);
+                    ?.getAttribute("href"); // get the url from the a tag hidden under another tag inside the first td
+                if (url == null) continue; // if there is no url, continue
+                const id = new URL(url).searchParams.get("id"); // get the id url param from the url
+                if (id == null) throw new Error("Error in parsing response"); // if there is no id, continue
+                const explanationElement = tr?.getElementsByTagName("td")[1]; // select the second td
+                const descriptionInnerHTML = explanationElement?.innerHTML; // get the inner html of the second td
+                if (descriptionInnerHTML == null) continue; // if there is no inner html, continue
+                const description = removeHTMLTags(descriptionInnerHTML); // remove the html tags from the inner html
                 results.push({ id, explanation: description });
             }
             return new MultipleResultsResponse(searchPhrase, results);
