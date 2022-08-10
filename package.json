@@ -1,7 +1,7 @@
 {
-	"name": "typescript-npm-module",
+	"name": "prirucka.ujc",
 	"version": "1.0.0",
-	"description": "A generic typescript npm package",
+	"description": "A TypeScript wrapper/scraper for the prirucka.ujc.cas.cz website",
 	"main": "./lib/index.js",
 	"types": "lib/index.d.ts",
 	"scripts": {
@@ -15,14 +15,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/jiricekcz/typescript-npm-module.git"
+		"url": "git+https://github.com/jiricekcz/prirucka.ujc.git"
 	},
 	"author": "jiricekcz",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/jiricekcz/typescript-npm-module/issues"
+		"url": "https://github.com/jiricekcz/prirucka.ujc/issues"
 	},
-	"homepage": "https://github.com/jiricekcz/typescript-npm-module#readme",
+	"homepage": "https://github.com/jiricekcz/prirucka.ujc#readme",
 	"devDependencies": {
 		"@types/node": "^17.0.10",
 		"@typescript-eslint/eslint-plugin": "^5.10.0",
