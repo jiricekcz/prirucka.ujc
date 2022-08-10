@@ -20,3 +20,7 @@ namespace API {
     }
 }
 export default API;
+
+API.wordQuery("pán").then(r => {
+    console.log(r);
+})
