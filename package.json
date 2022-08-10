@@ -38,5 +38,9 @@
 	},
 	"files": [
 		"lib/**/*"
-	]
+	],
+	"dependencies": {
+		"axios": "^0.27.2",
+		"jsdom": "^20.0.0"
+	}
 }
